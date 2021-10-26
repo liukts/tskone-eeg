@@ -1,0 +1,20 @@
+Document:
+  version: v1.13
+  author: author
+  date: '2008-07-07'
+  sections:
+  - name: sec_one
+    type: mainsec
+    sections:
+    - name: subsec_one
+      type: subsec
+    properties:
+    - name: prop_name
+      values:
+      - dtype:
+        - string
+        value: '[''one'', ''two'']'
+      - dtype:
+        - int
+        value: '1'
+odml-version: '1'

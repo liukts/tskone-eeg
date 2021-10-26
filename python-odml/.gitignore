@@ -1,0 +1,35 @@
+# python files and dirs
+*.pyc
+*.pyo
+*.egg
+*.egg-info
+dist
+build
+eggs
+.eggs
+parts
+
+# odml files
+# *.odml
+
+# Include a sample file
+!THGTTG.odml
+
+# installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+.cache
+
+# temp files
+*~
+*.log
+
+# idea / pycharm files
+.idea
+*.iml
+
+# doc/_build files
+doc/_build/
