@@ -82,26 +82,33 @@ for i in range(1,channels+1):
         # print(len(filtered_anasig[i-1]))
 
     # spike signals
-    sua_len = 0
+    no_sua = True
     for i,st in enumerate(data_block.segments[0].spiketrains):
         if st.annotations['sua']:
-            sua_len += len(st)
-        if st.annotations['mua']:
-            spiketimes.append(st.rescale(pq.CompoundUnit("1.0/1000 * s")))
-            print('mua')
-            sum += 1
-            print(len(spiketimes[-1]))
-            print(sua_len)
+            spiketimes.append(st.magnitude/30)
+            print(spiketimes[-1][-1])
+            print('sua')
+            no_sua = False
+            break
+    if no_sua:
+        spiketimes.append(None)
+        print('no sua')
     # t = data_segment.analogsignals[0].times
     # v = data_segment.analogsignals[0].squeeze()
     # plt.plot(t,v)
     # plt.xlim([0,10e3])
     # plt.savefig('test.png')
     # print(data_segment.analogsignals)
-print(f'MUA units = {sum}')
+print(f'SUA units = {sum}')
 
 # write signals into numpy arrays
 anasig_arr = np.empty((len(filtered_anasig[0]),len(filtered_anasig)))
+spikes = np.zeros_like(anasig_arr)
 for i in range(0,len(filtered_anasig)):
     anasig_arr[:,i] = filtered_anasig[i]# .reshape(-1,1)
-np.save(proc_datapath + 'anasig_arr.npy',anasig_arr)
+    if spiketimes[i] is not None:
+        ints = np.round(spiketimes[i]).astype(int)
+        spikes[:,i][ints] = 1
+        print('success')
+# np.save(proc_datapath + 'anasig_arr.npy',anasig_arr)
+np.save(proc_datapath + 'spikes.npy',spikes)
